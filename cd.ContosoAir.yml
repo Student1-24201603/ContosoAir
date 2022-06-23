@@ -25,22 +25,22 @@ steps:
     definition: '3'
     buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
-  - task: AzureResourceManagerTemplateDeployment@3
-    inputs:
-      deploymentScope: 'Resource Group'
-      azureResourceManagerConnection: 'Azure Connection'
-      subscriptionId: '2bd3c032-d88f-40ae-af12-59694af30272'
-      action: 'Create Or Update Resource Group'
-      resourceGroupName: '$(resourcegroup)'
-      location: 'East US 2'
-      templateLocation: 'Linked artifact'
-      csmFile: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.json'
-      csmParametersFile: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.parameters.json'
-      overrideParameters: '-p_environment $(web_environment) -p_site_prefix $(web_prefix) -p_site_web_name $(web_site)'
-      deploymentMode: 'Incremental'
-  - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        appType: 'webApp'
-        WebAppName: '$(web_prefix)-$(web_site)-$(web_environment)'
-        packageForLinux: '$(Pipeline.Workspace)/**/*.zip'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure Connection'
+    subscriptionId: '2bd3c032-d88f-40ae-af12-59694af30272'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(resourcegroup)'
+    location: 'East US 2'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.json'
+    csmParametersFile: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.parameters.json'
+    overrideParameters: '-p_environment $(web_environment) -p_site_prefix $(web_prefix) -p_site_web_name $(web_site)'
+    deploymentMode: 'Incremental'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    appType: 'webApp'
+    WebAppName: '$(web_prefix)-$(web_site)-$(web_environment)'
+    packageForLinux: '$(Pipeline.Workspace)/**/*.zip'
